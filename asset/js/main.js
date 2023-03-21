@@ -12,15 +12,18 @@ playButton.addEventListener("click", function(){
     setTimeout(() => {
         console.log('fine timer')
         show_input_and_show_off_h1El (h1El,sendButton,textInput)
+        const answerArray = string_to_array(textInputValue)
+        console.log(answerArray)
+    
     }, timeout);
-    console.log(`${h1El}valore inserito dall'utente${textInputValue},quantità di numeri da generare${numberMax}$`)    
     const arrayNumber = generate_array_number_random_different(numberMax,rangeNumberMax)
     console.log(`array di numeri ${arrayNumber}`)
     inner_numbers_into_h1El(h1El,arrayNumber)
     console.log(`dentro dell'H1 ${h1El.textContent}`)
-
+    console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)    
 });
-
+    const answerArray = string_to_array(textInputValue)
+    console.log(answerArray)
 
 
 
@@ -68,8 +71,17 @@ function inner_numbers_into_h1El(h1El,arrayNumber) {
 function show_input_and_show_off_h1El(h1El,sendButton,textInput){
     //aggiunge l'invisibilita del H1
     h1El.classList.add('d-none')
-    //rimuove l'invisibilita del input e del button send
+    //rimuove l'invisibilita del button send
     sendButton.classList.remove('d-none')
+    //rimuove l'invisibilita del input 
     textInput.classList.remove('d-none')
 }
+
+function string_to_array(string) {
+    //converte la stringa in un array
+    const splitString = string.split();
+    //restituisce l'array
+    return splitString; 
+}
+ 
 //-----------------------------------------------------------
