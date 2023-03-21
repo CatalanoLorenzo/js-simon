@@ -3,77 +3,63 @@ const h1El = document.querySelector('h1')
 const textInput = document.querySelector('input')
 const playButton = document.querySelector('.play')
 const sendButton = document.querySelector('.send')
+const loserbox = document.querySelector('.loser')
+const winbox = document.querySelector('.win')
 const numberMax = 5
 const rangeNumberMax = 100
 const timeout = 1 * 1000
 //-----------------------------------------------------------
 //al click del tasto play
 playButton.addEventListener("click", function () {
-    let arrayNumber = []
-    arrayNumber = generate_array_number_random_different(numberMax, rangeNumberMax)
-    sendButton.classList.add('d-none')
-    textInput.classList.add('d-none')
-    // genera un array di numeri random diversi tra di loro
-    
+    //reset contenuto h1 e visibilità sendbutton e textinput
+    reset_parametrs(h1El, sendButton, textInput, winbox, loserbox)
+    //genero un array vuoto per l'utente
+    let answerArray = []
+    // inserisco un array di numeri nella variabile
+    const arrayNumber = generate_array_number_random_different(numberMax, rangeNumberMax)
+    //mostro in console il contenuto dell'array
     console.log(`array di numeri del pc ${arrayNumber}`)
-    
+    //funzione posticipata di temeout
     setTimeout(() => {
-        
-        const textInputValue = Number(textInput.value)
-        
-        show_input_and_show_off_ElementoToDom(h1El, sendButton, textInput)
-        const answerArray = []
-        console.log(`array di numeri: ${answerArray.length} scelto dall'utente prima ${answerArray}`)
-
-
-        switch (true) {
-            case (answerArray.length === numberMax):
-                console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)
-                break;
-        
-            case (answerArray.length <= (numberMax - 1)):
-                sendButton.addEventListener('click', function () {
-
-                    console.log(Number(textInput.value))
-                    answerArray.push(Number(textInput.value))
-                    console.log(`array di numeri: ${answerArray.length} scelto dall'utente dopo ${answerArray}`)
-                })
-                break;
-            default:
-        }
-        /* if(answerArray.length == numberMax){
-            
-            console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)
-        }    
-        if (answerArray.length < numberMax){
-            sendButton.addEventListener('click', function (e,) {
-
-                console.log(Number(textInput.value))
-                answerArray.push(Number(textInput.value))
-                console.log(`array di numeri: ${answerArray.length} scelto dall'utente dopo ${answerArray}`)
-            })
-        } */
-       
-        
+        //mostro in console la fine della posticipazione
         console.log('fine timer')
+        //creazione della variabili contente il numero immesso dall'utente
+        const textInputValue = Number(textInput.value)
+        //mostra a schermo sendbutton and input e nascondo l'h1
+        show_ElementoToDom(sendButton)
+        show_ElementoToDom(textInput)
+        showoff_ElementoToDom(h1El)
+        //lo mostro a console
+        console.log(`array di numeri: ${answerArray.length} scelto dall'utente prima ${answerArray}`)
+        //aggiungo evento click a send button
+        sendButton.addEventListener('click', function () {
+            //verifico che :    
+
+            //se la lunghezza dell'array è uguale a numberMax
+            if (answerArray.length === numberMax - 1) {
+                //mosto in colsole i dati inseriti
+                console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)
+                //confronto i due array
+                if (comparison_two_array(answerArray, arrayNumber)) {
+                    //mostro messaggi di vittoria e resetto l'array dell'utente
+                    win(winbox, answerArray)
+                } else {
+                    //mostro messaggi di sconfitta e resetto l'array dell'utente
+                    lose(loserbox, answerArray)
+                }
+            }
+            //se la lunghezza dell'array è inferiore a numberMax
+            else if (answerArray.length < numberMax) {
+                push_value_into_array(textInput, answerArray)
+            }
+        })
 
     }, timeout);
-
+    //mostro a schermo i numeri dell'array
     inner_numbers_of_array_into_ElementoToDoml(h1El, arrayNumber)
+    //mostro in console il contenuto di h1
     console.log(`dentro dell'H1 ${h1El.textContent}`)
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -112,24 +98,24 @@ function inner_numbers_of_array_into_ElementoToDoml(ElementoToDom, arrayNumber) 
     //creo un ciclo che dura quanto tutto sono i numeri dentro l'array
     for (let i = 0; i < arrayNumber.length; i++) {
         //seleziona il numero corispondente del ciclo
-        const arraysNumber = ` ${arrayNumber[i]}`;
+        const arraysNumbers = ` ${arrayNumber[i]}`;
         //lo aggiunge all'H1 
-        ElementoToDom.innerText += arraysNumber
+        ElementoToDom.innerText += arraysNumbers
     }
 }
 /**show input and show off ElementoToDom
  * 
  * @param {HTMLHeadingElement} ElementoToDom 
- * @param {Element} sendButton 
- * @param {HTMLInputElement} textInput 
+ 
  */
-function show_input_and_show_off_ElementoToDom(ElementoToDom, sendButton, textInput) {
-    //aggiunge l'invisibilita del H1
-    ElementoToDom.classList.add('d-none')
+function show_ElementoToDom(ElementoToDom) {
+
     //rimuove l'invisibilita del button send
-    sendButton.classList.remove('d-none')
-    //rimuove l'invisibilita del input 
-    textInput.classList.remove('d-none')
+    ElementoToDom.classList.remove('d-none')
+
+}
+function showoff_ElementoToDom(ElementoToDom) {
+    ElementoToDom.classList.add('d-none')
 }
 /**string to array
  * 
@@ -153,10 +139,62 @@ function comparison_two_array(arrayOne, arrayTwo) {
         const numberForComparison = arrayOne[i];
         if (arrayTwo.includes(numberForComparison)) {
             i++
+            return true
         } else {
             console.log('hai sbagliato')
-            break
+            return false
         }
     }
+}
+/**
+ * 
+ * @param {HTMLHeadingElement} h1El 
+ * @param {Element} sendButton 
+ * @param {HTMLInputElement} textInput 
+ */
+function reset_parametrs(h1El, sendButton, textInput, winbox, loserbox) {
+    //reset contenuto h1
+    h1El.innerHTML = ''
+    //reset visibilità send button
+    showoff_ElementoToDom(sendButton)
+    //reset visibilità input
+    showoff_ElementoToDom(textInput)
+    //reset visibilità winbox
+    showoff_ElementoToDom(winbox)
+    //reset visibilità loserbox
+    showoff_ElementoToDom(loserbox)
+
+}
+function win(winbox, Array_for_clear) {
+    //mostro in console un messaggio di vittoria
+    console.log('HAI VINTO');
+    //mostra a schermo winbox
+    show_ElementoToDom(winbox)
+    //svuoto l'array dell'utente
+    Array_for_clear = []
+    //mostro in console l'array vuoto
+    console.log(Array_for_clear);
+}
+
+function lose(loserbox, Array_for_clear) {
+    //mostro in console un messaggio di sconfitta
+    console.log('HAI PERSO')
+    //mostra a schermo loserbox
+    show_ElementoToDom(loserbox)
+    //svuoto l'array dell'utente
+    Array_for_clear = []
+    //mostro in console l'array vuoto
+    console.log(Array_for_clear);
+
+}
+function push_value_into_array(Input, array_for_push) {
+    //mostro in consloe il valore inserito
+    console.log(Number(Input.value))
+    //lo inserisco nell'array dell'utente
+    array_for_push.push(Number(Input.value))
+    //reset input text
+    Input.value = ''
+    //mostro in console i dati dell'array dell'utente
+    console.log(`array di numeri: ${array_for_push.length} scelto dall'utente dopo ${array_for_push}`)
 }
 //-----------------------------------------------------------
