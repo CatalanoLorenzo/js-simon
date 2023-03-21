@@ -1,17 +1,20 @@
 //--------------------DOM's Element--------------------------
 const h1El = document.querySelector('h1')
 const textInputValue = document.querySelector('input').value
-const playButton = document.querySelector('play')
-const sendButton = document.querySelector('send')
+const playButton = document.querySelector('.play')
+const sendButton = document.querySelector('.send')
 const numberMax = 5
 const rangeNumberMax = 100
-console.log(`${h1El}valore inserito dall'utente${textInputValue},quantità di numeri da generare${numberMax}$`)
 //-----------------------------------------------------------
+playButton.addEventListener("click", function(){
+    
+    console.log(`${h1El}valore inserito dall'utente${textInputValue},quantità di numeri da generare${numberMax}$`)    
+    const arrayNumber = generatedArrayNumberRandomDifferent(numberMax,rangeNumberMax)
+    console.log(`array di numeri ${arrayNumber}`)
+    innerNumbersIntoH1El(h1El,arrayNumber)
+    console.log(`denrto dell'H1 ${h1El.textContent}`)
 
-const arrayNumber = generatedArrayNumberRandomDifferent(numberMax,rangeNumberMax)
-console.log(`array di numeri ${arrayNumber}`)
-innerNumbersIntoH1El(h1El,arrayNumber)
-console.log(`denrto dell'H1 ${h1El.textContent}`)
+});
 
 
 
