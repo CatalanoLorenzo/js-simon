@@ -1,18 +1,23 @@
 //--------------------DOM's Element--------------------------
 const h1El = document.querySelector('h1')
-const textInputValue = document.querySelector('input').value
+const textInput = document.querySelector('input')
+const textInputValue = textInput.value
 const playButton = document.querySelector('.play')
 const sendButton = document.querySelector('.send')
 const numberMax = 5
 const rangeNumberMax = 100
+const timeout = 30 * 1000
 //-----------------------------------------------------------
 playButton.addEventListener("click", function(){
-    
+    setTimeout(() => {
+        console.log('fine timer')
+        show_input_and_show_off_h1El (h1El,sendButton,textInput)
+    }, timeout);
     console.log(`${h1El}valore inserito dall'utente${textInputValue},quantità di numeri da generare${numberMax}$`)    
-    const arrayNumber = generatedArrayNumberRandomDifferent(numberMax,rangeNumberMax)
+    const arrayNumber = generate_array_number_random_different(numberMax,rangeNumberMax)
     console.log(`array di numeri ${arrayNumber}`)
-    innerNumbersIntoH1El(h1El,arrayNumber)
-    console.log(`denrto dell'H1 ${h1El.textContent}`)
+    inner_numbers_into_h1El(h1El,arrayNumber)
+    console.log(`dentro dell'H1 ${h1El.textContent}`)
 
 });
 
@@ -32,7 +37,7 @@ playButton.addEventListener("click", function(){
 
 
 //------------------------FUNCTION----------------------
-function generatedArrayNumberRandomDifferent(numberMax,rangeNumberMax) {
+function generate_array_number_random_different(numberMax,rangeNumberMax) {
     // genera un array vuoto 
     const array = []
     // ciclo per riempire l'array 
@@ -48,7 +53,7 @@ function generatedArrayNumberRandomDifferent(numberMax,rangeNumberMax) {
     // restituisce un array pieno di numeri diversi tra loro
     return array
 }
-function innerNumbersIntoH1El(h1El,arrayNumber) {
+function inner_numbers_into_h1El(h1El,arrayNumber) {
     //rimuove l'invisibilita del H1
     h1El.classList.remove('d-none')
     //creo un ciclo che dura quanto tutto sono i numeri dentro l'array
@@ -58,5 +63,13 @@ function innerNumbersIntoH1El(h1El,arrayNumber) {
         //lo aggiunge all'H1 
         h1El.innerText += arraysNumber
     }
+}
+
+function show_input_and_show_off_h1El(h1El,sendButton,textInput){
+    //aggiunge l'invisibilita del H1
+    h1El.classList.add('d-none')
+    //rimuove l'invisibilita del input e del button send
+    sendButton.classList.remove('d-none')
+    textInput.classList.remove('d-none')
 }
 //-----------------------------------------------------------
