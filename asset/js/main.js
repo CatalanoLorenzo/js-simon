@@ -18,6 +18,7 @@ playButton.addEventListener("click", function(){
             console.log(textInputValue)
             const answerArray = string_to_array(textInputValue)
             console.log(answerArray)
+            comparison_two_array(answerArray,arrayNumber)
             console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)    
 
         })
@@ -89,5 +90,16 @@ function string_to_array(string) {
     return splitString; 
 }
 
-
+function comparison_two_array(arrayOne,arrayTwo) {
+    let i = 0
+    while (i < arrayOne.length) {
+        const numberForComparison = arrayOne[i];
+        if (arrayTwo.includes(numberForComparison)) {
+            i++
+        }else{
+            console.log('hai sbagliato')
+            break
+        }
+    }
+}
 //-----------------------------------------------------------
