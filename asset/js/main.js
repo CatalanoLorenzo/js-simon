@@ -7,22 +7,27 @@ const numberMax = 5
 const rangeNumberMax = 100
 const timeout = 1 * 1000
 //-----------------------------------------------------------
+//al click del tasto play
 playButton.addEventListener("click", function () {
+    let arrayNumber = []
+    arrayNumber = generate_array_number_random_different(numberMax, rangeNumberMax)
+    sendButton.classList.add('d-none')
+    textInput.classList.add('d-none')
+    // genera un array di numeri random diversi tra di loro
     
-    const arrayNumber = generate_array_number_random_different(numberMax, rangeNumberMax)
     console.log(`array di numeri del pc ${arrayNumber}`)
     
     setTimeout(() => {
         
         const textInputValue = Number(textInput.value)
         
-        show_input_and_show_off_h1El(h1El, sendButton, textInput)
+        show_input_and_show_off_ElementoToDom(h1El, sendButton, textInput)
         const answerArray = []
         console.log(`array di numeri: ${answerArray.length} scelto dall'utente prima ${answerArray}`)
 
 
         switch (true) {
-            case (answerArray.length == numberMax):
+            case (answerArray.length === numberMax):
                 console.log(`numeri da memorizzare ${h1El.textContent} valore inserito dall'utente ${textInputValue}, quantità di numeri da generare ${numberMax}`)
                 break;
         
@@ -54,7 +59,7 @@ playButton.addEventListener("click", function () {
 
     }, timeout);
 
-    inner_numbers_into_h1El(h1El, arrayNumber)
+    inner_numbers_of_array_into_ElementoToDoml(h1El, arrayNumber)
     console.log(`dentro dell'H1 ${h1El.textContent}`)
 });
 
@@ -74,6 +79,12 @@ playButton.addEventListener("click", function () {
 
 
 //------------------------FUNCTION----------------------
+/**generate array number random different
+ * 
+ * @param {number} numberMax 
+ * @param {number} rangeNumberMax 
+ * @returns 
+ */
 function generate_array_number_random_different(numberMax, rangeNumberMax) {
     // genera un array vuoto 
     const array = []
@@ -90,34 +101,52 @@ function generate_array_number_random_different(numberMax, rangeNumberMax) {
     // restituisce un array pieno di numeri diversi tra loro
     return array
 }
-function inner_numbers_into_h1El(h1El, arrayNumber) {
+/**inner numbers of array into ElementoToDoml
+ * 
+ * @param {HTMLHeadingElement} h1El 
+ * @param {array} arrayNumber 
+ */
+function inner_numbers_of_array_into_ElementoToDoml(ElementoToDom, arrayNumber) {
     //rimuove l'invisibilita del H1
-    h1El.classList.remove('d-none')
+    ElementoToDom.classList.remove('d-none')
     //creo un ciclo che dura quanto tutto sono i numeri dentro l'array
     for (let i = 0; i < arrayNumber.length; i++) {
         //seleziona il numero corispondente del ciclo
         const arraysNumber = ` ${arrayNumber[i]}`;
         //lo aggiunge all'H1 
-        h1El.innerText += arraysNumber
+        ElementoToDom.innerText += arraysNumber
     }
 }
-
-function show_input_and_show_off_h1El(h1El, sendButton, textInput) {
+/**show input and show off ElementoToDom
+ * 
+ * @param {HTMLHeadingElement} ElementoToDom 
+ * @param {Element} sendButton 
+ * @param {HTMLInputElement} textInput 
+ */
+function show_input_and_show_off_ElementoToDom(ElementoToDom, sendButton, textInput) {
     //aggiunge l'invisibilita del H1
-    h1El.classList.add('d-none')
+    ElementoToDom.classList.add('d-none')
     //rimuove l'invisibilita del button send
     sendButton.classList.remove('d-none')
     //rimuove l'invisibilita del input 
     textInput.classList.remove('d-none')
 }
-
+/**string to array
+ * 
+ * @param {string} string 
+ * @returns 
+ */
 function string_to_array(string) {
     //converte la stringa in un array
     const splitString = string.split();
     //restituisce l'array
     return splitString;
 }
-
+/** comparison two array
+ * 
+ * @param {array} arrayOne 
+ * @param {array} arrayTwo 
+ */
 function comparison_two_array(arrayOne, arrayTwo) {
     let i = 0
     while (i < arrayOne.length) {
